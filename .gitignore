@@ -22,7 +22,7 @@ dist/
 # Maven
 target/
 dist/
-
+selenide/selenide_pvt/build/
 # JetBrains IDE
 .idea/
 

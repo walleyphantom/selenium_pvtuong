@@ -22,6 +22,15 @@ Search and select Java: Configure Java Runtime
 In the Project Settings section, make sure the Project SDK and language level are set to Java 17
 
 
+ ## Clone the repository
+
+git clone https://github.com/walleyphantom/selenium_pvtuong.git
+
+cd selenide
+
+cd selenide_pvt
+
+
 ##  How to Run Tests
 
 ```
