@@ -4,9 +4,12 @@ import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
+
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import com.example.enums.Departments;
 import com.example.utils.Utilities;
+import io.qameta.allure.Step;
 
 public class GeneralPage {
 
@@ -21,42 +24,57 @@ public class GeneralPage {
         return $x(String.format("//a[@class='item-link' and text()='%s']", name));
     }
 
-    // Navigation Methods
+    // ===== Navigation Methods =====
+
+    @Step("Go to department page: {department}")
+    public Object goToDepartmentItemPage(Departments department) {
+        itemProduct(department.getType()).shouldBe(visible).click();
+        return department.getPage();
+    }
+
+    @Step("Go to Shop Page")
     public ShopPage goToShopPage() {
         tabShop.shouldBe(visible).click();
         return new ShopPage();
     }
 
+    @Step("Go to Cart Page")
     public CardPage goToCartPage() {
         tabCart.shouldBe(visible).click();
         return new CardPage();
     }
 
+    @Step("Go to Login Page")
     public LoginPage goToLoginPage() {
         tabLogin.shouldBe(visible).click();
         closePopupIfVisible();
         return new LoginPage();
     }
 
+    @Step("Go to Electronic Components & Supplies Page")
     public ProductCategoryPage goToElectronicSuppliesPage() {
         itemProduct(Utilities.eletronic_component_supplies).shouldBe(visible).click();
         return new ProductCategoryPage();
     }
 
-    // Action Methods
+    // ===== Actions =====
+
+    @Step("Hover on All Departments")
     public void hoverOnAllDepartments() {
         tabAllDepartments.shouldBe(visible).hover();
     }
 
+    @Step("Check if current URL matches: {expectedUrl}")
     public boolean isCurrentUrl(String expectedUrl) {
         return WebDriverRunner.url().equals(expectedUrl);
     }
 
+    @Step("Close popup if visible")
     public void closePopupIfVisible() {
         SelenideElement popup = $("#pum-5700");
         if (popup.isDisplayed()) {
-            popup.$(".pum-close").click(); // hoặc bạn xác định nút close bằng selector phù hợp
-            popup.should(disappear); // chờ popup biến mất hoàn toàn
+            popup.$(".pum-close").click();
+            popup.should(disappear);
+        }
     }
-}
 }

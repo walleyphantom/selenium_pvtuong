@@ -4,7 +4,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
+import com.example.enums.Departments;
 import com.example.model.Product;
 import com.example.page_object_model.CardPage;
 import com.example.page_object_model.HomePage;
@@ -14,7 +14,9 @@ import com.example.page_object_model.ProductDetaiPage;
 import com.example.page_object_model.ShopPage;
 import com.example.utils.Utilities;
 
+import io.qameta.allure.Epic;
 
+@Epic("Create 12 Testcase")
 public class SelenideOrderTest {
     HomePage homePage;
     ShopPage shopPage;
@@ -32,11 +34,11 @@ public class SelenideOrderTest {
         softAssert = new SoftAssert();
     }
 
-    
+
     @Test(description = "TC01: Verify order placement flow")
     public void TC01() {
         loginPage = homePage.goToLoginPage();
-        loginPage.login(); // dùng hàm login() mới sửa ở LoginPage
+        loginPage.login(); 
         homePage.hoverOnAllDepartments();
 
         productCategoryPage = homePage.goToElectronicSuppliesPage();
@@ -60,6 +62,14 @@ public class SelenideOrderTest {
         System.err.println("Test order results:" + cardPage.isOrderIndexRowInfor(Utilities.product, 1));
     }
 
+    
+    @Test(description = "Just test")
+    public void TCTest() {
+        loginPage = homePage.goToLoginPage();
+        loginPage.login(); // dùng hàm login() mới sửa ở LoginPage
+        homePage.hoverOnAllDepartments();
+        productCategoryPage = (ProductCategoryPage) homePage.goToDepartmentItemPage(Departments.ELECTRONIC_COMPONENTS_SUPPLIES);
+    }
 
     @AfterMethod
     public void tearDown() {

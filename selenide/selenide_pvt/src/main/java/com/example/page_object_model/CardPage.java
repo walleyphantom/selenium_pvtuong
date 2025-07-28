@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.$x;
 import com.codeborne.selenide.SelenideElement;
 import com.example.model.BillingDetail;
 import com.example.model.Product;
-
+import io.qameta.allure.Step;
 
 public class CardPage extends GeneralPage {
 
@@ -29,19 +29,24 @@ public class CardPage extends GeneralPage {
     private final SelenideElement phone = $("#billing_phone");
     private final SelenideElement email = $("#billing_email");
 
-    // Actions
+    // ====== Actions ======
+
+    @Step("Click Checkout button")
     public void clickCheckOutBtn() {
         checkOutBtn.click();
     }
 
+    @Step("Click Place Order button")
     public void clickPlaceOrderBtn() {
         placeOrderBtn.shouldBe(visible).click();
     }
 
+    @Step("Verify that order confirmation page is displayed")
     public boolean isOrderPage() {
         return titleOrderInfo.shouldBe(visible).exists();
     }
 
+    @Step("Fill billing details: {billing}")
     public void fillBillingDetails(BillingDetail billing) {
         firstName.setValue(billing.getFirstName());
         lastName.setValue(billing.getLastName());
@@ -53,6 +58,7 @@ public class CardPage extends GeneralPage {
         email.setValue(billing.getEmail());
     }
 
+    @Step("Verify cart table at row {rowIndex} matches product: {data}")
     public boolean isCheckIndexRowInfor(Product data, int rowIndex) {
         for (int col = 1; col < table1Cols.size(); col++) {
             String header = table1Cols.get(col).text();
@@ -77,6 +83,7 @@ public class CardPage extends GeneralPage {
         return true;
     }
 
+    @Step("Verify order table at row {rowIndex} matches product: {data}")
     public boolean isOrderIndexRowInfor(Product data, int rowIndex) {
         for (int col = 1; col < orderTableCols.size(); col++) {
             String header = orderTableCols.get(col).text();
