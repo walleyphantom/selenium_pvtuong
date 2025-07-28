@@ -23,6 +23,7 @@ dist/
 target/
 dist/
 selenide/selenide_pvt/build/
+allure-results/
 # JetBrains IDE
 .idea/
 
