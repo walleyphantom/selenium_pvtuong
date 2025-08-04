@@ -8,7 +8,9 @@ import static com.codeborne.selenide.Selenide.$x;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import com.example.enums.Departments;
+import com.example.enums.MenuItem;
 import com.example.utils.Utilities;
+
 import io.qameta.allure.Step;
 
 public class GeneralPage {
@@ -31,6 +33,13 @@ public class GeneralPage {
         itemProduct(department.getType()).shouldBe(visible).click();
         return department.getPage();
     }
+
+    @Step("Go to department page: {department}")
+    public Object goToMenuItemPage(MenuItem department) {
+            itemProduct(department.getLabel()).shouldBe(visible).click();
+            return department.getPage();
+        }
+
 
     @Step("Go to Shop Page")
     public ShopPage goToShopPage() {

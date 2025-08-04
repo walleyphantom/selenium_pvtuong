@@ -1,4 +1,5 @@
 package com.example;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -16,24 +17,22 @@ import com.example.page_object_model.ShopPage;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-{
-    HomePage homePage;
-    ShopPage shopPage;
-    LoginPage loginPage;
-    ProductCategoryPage productCategoryPage;
-    ProductDetaiPage productDetaiPage;
-    CardPage cardPage;
-    SoftAssert softAssert;
+public class AppTest {
+  HomePage homePage;
+  ShopPage shopPage;
+  LoginPage loginPage;
+  ProductCategoryPage productCategoryPage;
+  ProductDetaiPage productDetaiPage;
+  CardPage cardPage;
+  SoftAssert softAssert;
 
-
-     @BeforeMethod
-    public void setUp() {
-        System.out.println("Pre-condition");
-        homePage = new HomePage();
-        homePage.open_chrome();
-        softAssert = new SoftAssert();
-    }
+  @BeforeMethod
+  public void setUp() {
+    System.out.println("Pre-condition");
+    homePage = new HomePage();
+    homePage.open_chrome();
+    softAssert = new SoftAssert();
+  }
 
   @Test
   public void extensionOptions() {
