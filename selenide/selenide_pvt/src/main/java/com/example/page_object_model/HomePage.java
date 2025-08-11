@@ -1,4 +1,5 @@
 package com.example.page_object_model;
+
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.BeforeSuite;
 
@@ -15,14 +16,10 @@ public class HomePage extends GeneralPage {
     @BeforeSuite
     public void setUpAllureSelenideListener() {
         SelenideLogger.addListener("AllureSelenide",
-            new AllureSelenide()
-                .screenshots(true)      // Tự động chụp ảnh khi fail
-                .savePageSource(false)  // Không lưu page source
-        );
+                new AllureSelenide()
+                        .screenshots(true)
+                        .savePageSource(false));
     }
-
-
-
 
     @Step("Open browser with default settings and navigate to '{Constant.SELE2_URL}'")
     public void open_defalt() {
@@ -30,7 +27,7 @@ public class HomePage extends GeneralPage {
         options.addArguments("--start-maximized");
 
         Configuration.browser = "chrome";
-        Configuration.timeout = 8000;
+        Configuration.timeout = 10000;
         Configuration.browserCapabilities = options;
 
         open(Constant.SELE2_URL);

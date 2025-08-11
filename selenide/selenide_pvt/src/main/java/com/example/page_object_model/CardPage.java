@@ -5,6 +5,9 @@ import com.codeborne.selenide.ElementsCollection;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$x;
 import static com.codeborne.selenide.Selenide.$x;
+
+import java.util.List;
+
 import com.codeborne.selenide.SelenideElement;
 import com.example.model.BillingDetail;
 import com.example.model.Product;
@@ -67,14 +70,16 @@ public class CardPage extends GeneralPage {
 
             switch (header) {
                 case "Price":
-                    if (!cell.text().equals(data.getPrice())) return false;
+                    if (!cell.text().equals(data.getPrice()))
+                        return false;
                     break;
                 case "Quantity":
                     if (!cell.$("input[type='number']").val().equals(String.valueOf(data.getQuantity())))
                         return false;
                     break;
                 case "Product":
-                    if (!cell.$(".product-title").text().equals(data.getName())) return false;
+                    if (!cell.$(".product-title").text().equals(data.getName()))
+                        return false;
                     break;
                 default:
                     break;
@@ -87,21 +92,36 @@ public class CardPage extends GeneralPage {
     public boolean isOrderIndexRowInfor(Product data, int rowIndex) {
         for (int col = 1; col < orderTableCols.size(); col++) {
             String header = orderTableCols.get(col).text();
-            String cellXpath = String.format("//*[@class='woocommerce-order-details']/table//tr[%d]/td[%d]", rowIndex, col);
+            String cellXpath = String.format("//*[@class='woocommerce-order-details']/table//tr[%d]/td[%d]", rowIndex,
+                    col);
             SelenideElement cell = $x(cellXpath);
 
             switch (header) {
                 case "Price":
-                    if (!cell.text().equals(data.getPrice())) return false;
+                    if (!cell.text().equals(data.getPrice()))
+                        return false;
                     break;
                 case "Product":
                     String[] productSplit = cell.text().split("x");
                     String productName = productSplit[0].replace("\u00A0", " ").replaceAll("\\s+", " ").trim();
                     int quantity = Integer.parseInt(productSplit[1].trim());
-                    if (!(productName.equals(data.getName()) && quantity == data.getQuantity())) return false;
+                    if (!(productName.equals(data.getName()) && quantity == data.getQuantity()))
+                        return false;
                     break;
                 default:
                     break;
+            }
+        }
+        return true;
+    }
+
+    @Step("Verify all selected products are in the cart table")
+    public boolean verifyAllSelectedProductsInCart(List<Product> selectedProducts) {
+        for (int i = 0; i < selectedProducts.size(); i++) {
+            Product expectedProduct = selectedProducts.get(i);
+            // i+1 vì rowIndex trong HTML table thường bắt đầu từ 1
+            if (!isCheckIndexRowInfor(expectedProduct, i + 1)) {
+                return false;
             }
         }
         return true;

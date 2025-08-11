@@ -2,8 +2,9 @@ package com.example.page_object_model;
 
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
+
+import java.time.Duration;
 
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
@@ -16,9 +17,9 @@ import io.qameta.allure.Step;
 public class GeneralPage {
 
     // Elements
-    private final SelenideElement tabShop           = $x("//a[@class='item-link' and contains(text(), 'Shop')]");
-    private final SelenideElement tabCart           = $x("//a[@href = 'https://demo.testarchitect.com/cart/']");
-    private final SelenideElement tabLogin          = $x("//span[contains(text(), 'Log in')]");
+    private final SelenideElement tabShop = $x("//a[@class='item-link' and contains(text(), 'Shop')]");
+    private final SelenideElement tabCart = $x("//a[@href = 'https://demo.testarchitect.com/cart/']");
+    private final SelenideElement tabLogin = $x("//span[contains(text(), 'Log in')]");
     private final SelenideElement tabAllDepartments = $x("//span[text()='All departments']");
 
     // Dynamic locator
@@ -36,10 +37,9 @@ public class GeneralPage {
 
     @Step("Go to department page: {department}")
     public Object goToMenuItemPage(MenuItem department) {
-            itemProduct(department.getLabel()).shouldBe(visible).click();
-            return department.getPage();
-        }
-
+        itemProduct(department.getLabel()).shouldBe(visible).click();
+        return department.getPage();
+    }
 
     @Step("Go to Shop Page")
     public ShopPage goToShopPage() {
@@ -49,15 +49,19 @@ public class GeneralPage {
 
     @Step("Go to Cart Page")
     public CardPage goToCartPage() {
+        executeJavaScript("arguments[0].scrollIntoView({block: 'center'});", tabCart);
         tabCart.shouldBe(visible).click();
         return new CardPage();
     }
 
     @Step("Go to Login Page")
     public LoginPage goToLoginPage() {
+        Utilities.closePopupIfExists();
+
         tabLogin.shouldBe(visible).click();
-        closePopupIfVisible();
+        Utilities.closeCookieNoticeIfExists();
         return new LoginPage();
+
     }
 
     @Step("Go to Electronic Components & Supplies Page")
@@ -78,12 +82,4 @@ public class GeneralPage {
         return WebDriverRunner.url().equals(expectedUrl);
     }
 
-    @Step("Close popup if visible")
-    public void closePopupIfVisible() {
-        SelenideElement popup = $("#pum-5700");
-        if (popup.isDisplayed()) {
-            popup.$(".pum-close").click();
-            popup.should(disappear);
-        }
-    }
 }

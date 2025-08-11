@@ -34,11 +34,10 @@ public class SelenideOrderTest {
         softAssert = new SoftAssert();
     }
 
-
     @Test(description = "TC01: Verify order placement flow")
     public void TC01() {
         loginPage = homePage.goToLoginPage();
-        loginPage.login(); 
+        loginPage.login();
         homePage.hoverOnAllDepartments();
 
         productCategoryPage = homePage.goToElectronicSuppliesPage();
@@ -50,25 +49,41 @@ public class SelenideOrderTest {
         productDetaiPage.clickAddToCart();
         cardPage = productDetaiPage.goToCartPage();
 
-        softAssert.assertTrue(cardPage.isCheckIndexRowInfor(Utilities.product, 1),"Row display is not correct");
+        softAssert.assertTrue(cardPage.isCheckIndexRowInfor(Utilities.product, 1), "Row display is not correct");
 
         cardPage.clickCheckOutBtn();
-        softAssert.assertTrue(cardPage.isOrderIndexRowInfor(Utilities.product, 1), "Product displays wrong information");
+        softAssert.assertTrue(cardPage.isOrderIndexRowInfor(Utilities.product, 1),
+                "Product displays wrong information");
 
         cardPage.fillBillingDetails(Product.BillingDataFactory.generateBillingDetail());
         cardPage.clickPlaceOrderBtn();
 
-        softAssert.assertTrue(cardPage.isOrderPage(),"Page is not order page");
+        softAssert.assertTrue(cardPage.isOrderPage(), "Page is not order page");
         System.err.println("Test order results:" + cardPage.isOrderIndexRowInfor(Utilities.product, 1));
     }
 
-    
+    @Test(description = "TC02:")
+    public void TC02() {
+        loginPage = homePage.goToLoginPage();
+        loginPage.login();
+        shopPage = homePage.goToShopPage();
+        shopPage.clickRandomProductAddToCartRandomTimes();
+        cardPage = shopPage.goToCartPage();
+        softAssert.assertTrue(cardPage.verifyAllSelectedProductsInCart(shopPage.getSelectedProducts()), "Add later");
+        cardPage.clickCheckOutBtn();
+        softAssert.assertTrue(cardPage.isOrderIndexRowInfor(Utilities.product, 1),
+                "Product displays wrong information");
+
+        cardPage.fillBillingDetails(Product.BillingDataFactory.generateBillingDetail());
+        cardPage.clickPlaceOrderBtn();
+
+        softAssert.assertTrue(cardPage.isOrderPage(), "Page is not order page");
+        System.err.println("Test order results:" + cardPage.isOrderIndexRowInfor(Utilities.product, 1));
+
+    }
+
     @Test(description = "Just test")
     public void TCTest() {
-        loginPage = homePage.goToLoginPage();
-        loginPage.login(); // dùng hàm login() mới sửa ở LoginPage
-        homePage.hoverOnAllDepartments();
-        productCategoryPage = (ProductCategoryPage) homePage.goToDepartmentItemPage(Departments.ELECTRONIC_COMPONENTS_SUPPLIES);
     }
 
     @AfterMethod

@@ -1,5 +1,8 @@
 package com.example.model;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import com.example.utils.Utilities;
 import com.github.javafaker.Faker;
 
@@ -14,7 +17,7 @@ public class Product {
         this.quantity = quantity;
     }
 
-  // Getter
+    // Getter
     public String getName() {
         return name;
     }
@@ -41,19 +44,17 @@ public class Product {
     }
 
     public class BillingDataFactory {
-    private static final Faker faker = new Faker();
+        private static final Faker faker = new Faker();
 
-    public static BillingDetail generateBillingDetail() {
-        return new BillingDetail(
-            faker.name().firstName(),
-            faker.name().lastName(),
-            faker.address().streetAddress(),
-            faker.address().city(),
-            "45837",
-            faker.phoneNumber().cellPhone(),
-            Utilities.user_name
-        );
-    }
+        public static BillingDetail generateBillingDetail() {
+            return new BillingDetail(
+                    faker.name().firstName(),
+                    faker.name().lastName(),
+                    faker.address().streetAddress(),
+                    faker.address().city(),
+                    "45837",
+                    faker.phoneNumber().cellPhone(),
+                    Utilities.user_name);
+        }
     }
 }
-
