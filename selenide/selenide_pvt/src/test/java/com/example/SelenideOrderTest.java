@@ -79,7 +79,15 @@ public class SelenideOrderTest {
 
         softAssert.assertTrue(cardPage.isOrderPage(), "Page is not order page");
         System.err.println("Test order results:" + cardPage.isOrderIndexRowInfor(Utilities.product, 1));
+    }
 
+    @Test(description = "TC03:")
+    public void TC03() {
+        loginPage = homePage.goToLoginPage();
+        loginPage.login();
+        shopPage = homePage.goToShopPage();
+        shopPage.clickRandomProductAddToCart();
+        cardPage = shopPage.goToCartPage();
     }
 
     @Test(description = "Just test")
